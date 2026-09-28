@@ -1,0 +1,35 @@
+name: Student Assessment Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-project:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check required files
+        run: |
+          test -f index.html
+          test -f style.css
+          test -f script.js
+          echo "Required files are present"
+
+      - name: Check HTML
+        run: |
+          grep -q "<form" index.html
+          echo "HTML form found"
+
+      - name: Check JavaScript
+        run: |
+          grep -q "localStorage" script.js
+          grep -q "createElement" script.js
+          echo "Required JavaScript features found"
+
+      - name: Assessment Passed
+        run: echo "Assessment checks passed!"
